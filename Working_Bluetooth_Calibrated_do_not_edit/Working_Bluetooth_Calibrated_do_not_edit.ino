@@ -34,13 +34,12 @@ void setup() {
 void loop() { 
  for (int i = 0; i <= 100; i++) { 
    sensorValue0 = sensorValue0 + analogRead(SensorPin0); 
-   delay(10000); 
+   delay(1); 
  } 
- sensorValue0=sensorValue0/800.0;
+ sensorValue0=sensorValue0/100.0;
  bt.print("Soil Mositure: ");
- bt.print(sensorValue0);
- bt.println("%");
- delay(10000);
+ bt.println(sensorValue0);
+ delay(1000);
 
 bt.print("Temperature: ");
 bt.print(bmp.readTemperature());
@@ -50,6 +49,6 @@ bt.print("Pressure: ");
 bt.print(bmp.readPressure());
 bt.println(" Pa");
 
-delay(10000);
+delay(1000);
  
 }
