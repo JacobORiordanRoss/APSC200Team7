@@ -17,7 +17,7 @@ Adafruit_BMP280 bmp(BMP_CS, BMP_MOSI, BMP_MISO, BMP_SCK);
   
 void setup() { 
  bt.begin(9600); 
- bt.println("LABEL,Time,Soil Moisture,Temperature,Pressure");
+ bt.println("LABEL,Time,Soil Moisture,Pressure,Soil Saturation Capacity");
  
   if (!bmp.begin()) {
     bt.println(F("Could not find a valid BMP280 sensor."));
@@ -37,25 +37,16 @@ void loop() {
    sensorValue0 = sensorValue0 + analogRead(SensorPin0); 
    delay(1); 
  } 
- sensorValue0=sensorValue0/800.0;
- /*bt.print("Soil Mositure: ");
- bt.print(sensorValue0);
- bt.println("%");
- delay(10000);
-
-bt.print("Temperature: ");
-bt.print(bmp.readTemperature());
-bt.println(" *C");
-
-bt.print("Pressure: ");
-bt.print(bmp.readPressure());
-bt.println(" Pa");*/
+ sensorValue0 = sensorValue0/800.0;
+ pressureValue = bmp.readPressure();
+ maxSaturation = 24.799*pow(pressureValue, -0.141);
+ memFactor = sensorValue0/maxSaturation*100;
 bt.print("DATA,TIME,");
 bt.print(sensorValue0);
 bt.print(",");
-bt.print(bmp.readTemperature());
+bt.print(pressureValue);
 bt.print(",");
-bt.println(bmp.readPressure());
+bt.println(memFactor);
 delay(1000);
  
 }
